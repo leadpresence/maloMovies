@@ -27,23 +27,29 @@ class MyMaloApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
+  //Wrap the application with a multiprovider
   return MultiProvider(
       providers: [
+        // provider to control light and dark mode
         ListenableProvider<SetThemeState>(
           create: (_) => SetThemeState(selectedTheme: ThemeSelected.dark),
         ),
+        //provider to handle loading states
         ListenableProvider<SetLoading>(
           create: (_) => SetLoading(isLoading: false),
         ),
       ],
       child: GetMaterialApp(
+        //disable the debug banner
         debugShowCheckedModeBanner: false,
+
         scrollBehavior: ScrollConfiguration.of(context).copyWith(
           dragDevices: {
             PointerDeviceKind.touch,
             PointerDeviceKind.mouse,
           },
         ),
+        // Set the  navigation to various screens
         getPages: [
           GetPage(name: '/', page: () => HomeScreen()),
           GetPage(name: '/search', page: () => SearchResults()),
@@ -52,7 +58,7 @@ class MyMaloApp extends StatelessWidget {
             page: () => MovieScreen(),
           ),
         ],
-        title: 'Flutter Movies Api',
+        title: 'Malo movies',
         home: HomeScreen(),
       ),
     );
